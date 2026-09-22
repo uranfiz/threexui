@@ -110,9 +110,14 @@ with Panel("https://panel.example.com:2053", token="...") as panel:
 
 ### Clients
 
-Управление клиентами: создание, обновление, удаление, ссылки, трафик.
+Управление клиентами: создание, обновление, удаление, ссылки, трафик, массовые операции.
 
 ```python
+# все клиенты
+for client in panel.clients.list():
+    used = client.traffic.up + client.traffic.down
+    print(client.email, used, client.enable)
+
 # создать клиента
 panel.clients.add(
     email="user123",
@@ -148,6 +153,41 @@ panel.clients.delete("user123", keep_traffic=True)  # оставить стат�
 
 # кто онлайн
 online = panel.clients.online()
+
+# IP-адреса клиента
+ips = panel.clients.ips("user123")
+panel.clients.clear_ips("user123")
+
+# продлить и пополнить
+panel.clients.extend(["alice", "bob"], days=30, gigabytes=100)
+
+# привязать/отвязать inbounds
+panel.clients.attach("user123", [5, 7])
+panel.clients.detach("user123", [3])
+```
+
+**Массовые операции:**
+
+```python
+# создать пачку клиентов
+panel.clients.bulk_add([
+    {"email": "user1", "inbound_ids": [3], "total_gb": 50, "expires": timedelta(days=30)},
+    {"email": "user2", "inbound_ids": [3], "total_gb": 100, "expires": timedelta(days=60)},
+])
+
+# массовое удаление
+panel.clients.bulk_delete(["user1", "user2"])
+
+# массово включить/выключить
+panel.clients.bulk_enable(["user1", "user2"])
+panel.clients.bulk_disable(["user3", "user4"])
+
+# массово сбросить трафик
+panel.clients.bulk_reset_traffic(["user1", "user2"])
+
+# удалить всех с истёкшим трафиком/сроком
+deleted = panel.clients.delete_depleted()
+print(f"Удалено: {deleted}")
 ```
 
 ---
@@ -165,7 +205,7 @@ for i in inbounds:
 # облегчённый список для меню
 slim = panel.inbounds.list_slim()
 
-# сонкретный inbound
+# конкретный inbound
 inbound = panel.inbounds.get(3)
 
 # создать
@@ -529,5 +569,6 @@ GNU Affero General Public License v3.0 (AGPL-3.0). См. [LICENSE](LICENSE).
 ## Автор
 
 **Dream** — [@devuranium](https://t.me/devuranium)
+**Бот** для обратной связи / **идей** / багов: [@libsmods_bot](https://t.me/libsmods_bot).
 
 Issues и pull requests приветствуются на [GitHub](https://github.com/uranfiz/threexui).
