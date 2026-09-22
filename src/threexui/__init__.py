@@ -14,7 +14,7 @@ from .custom_geo import CustomGeo
 from .xray import Xray
 from .hosts import Hosts
 
-__version__ = "0.1.1"
+__version__ = "0.2.0"
 __all__ = [
     "Panel",
     "Client", "Inbound", "ClientTraffic",
