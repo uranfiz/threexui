@@ -569,6 +569,7 @@ GNU Affero General Public License v3.0 (AGPL-3.0). См. [LICENSE](LICENSE).
 ## Автор
 
 **Dream** — [@devuranium](https://t.me/devuranium)
+
 **Бот** для обратной связи / **идей** / багов: [@libsmods_bot](https://t.me/libsmods_bot).
 
 Issues и pull requests приветствуются на [GitHub](https://github.com/uranfiz/threexui).
